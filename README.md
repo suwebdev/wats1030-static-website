@@ -60,21 +60,43 @@ You now need to configure your subdomain to point to your game (and that means m
 
 To configure your subdomain, go to your domain registrar and create a new subdomain. When configuring the subdomain, you want to set the CNAME for the subdomain to point to the IP address of your Droplet. This is similar to what you did to configure your main domain to point to your Github profile pages. Exactly how to accomplish this will vary depending on your domain registrar. Consult the support pages for your domain registrar to find out how to do this.
 
+*NOTE:* Sometimes the domain registrar may force you to create an A record since you only have a numeric address. That's fine, and will also work. Again, consult your registrar's support documentation for details and reach out to your instructor for help.
+
+**Test your subdomain** by going to `http://sub.yourdomain.com` in your web browser. You should see an Ubuntu Apache default page telling you about your Apache installation. 
+
 Once you've set up the subdomain with a CNAME pointing to the IP address of your Droplet, you will need to modify the Apache configuration that was just created for you. This is a simple change: You must add a "virtual host" configuration for your chosen subdomain. Follow the [Digital Ocean Support instructions to configure Apache virtual hosts](https://www.digitalocean.com/community/tutorials/how-to-set-up-apache-virtual-hosts-on-ubuntu-14-04-lts/#step-four-—-create-new-virtual-host-files) to accomplish this. Your site configuration file should look something like this:
 
 ```
 <VirtualHost *:80>
     ServerAdmin you@example.com
-    ServerName subdomain.example.com
+    ServerName sub.yourdomain.com
     DocumentRoot /var/www/wats1030-static-website/2048
     ErrorLog ${APACHE_LOG_DIR}/error.log
     CustomLog ${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
 ```
 
+Don't forget to run the commands specified in the Digital Ocean support document:
+
+```
+root@static-site:/var/www/html# sudo a2ensite sub.yourdomain.com.conf
+Enabling site sub.yourdomain.com.
+To activate the new configuration, you need to run:
+  service apache2 reload
+```
+
+As the feedback instructs, reload Apache so your changes take effect:
+
+```
+root@static-site:/var/www/html# service apache2 reload
+ * Reloading web server apache2                                                                                             *
+```
+
+You should now be able to see the 2048 game at [http://sub.yourdomain.com](http://sub.yourdomain.com).
+
 ## Stretch Requirements
 
-* Do the exact same thing as above, but using nginx. You can even configure an additional subdomain so that you have the Apache and nginx versions running side by side.
+* Fulfill the basic requirements, but using nginx. You can even configure an additional subdomain so that you have the Apache and nginx versions running side by side.
 * Deploy another (or two or three more!) apps on your Droplet. (Here is a [list of open source HTML5 games](https://github.com/leereilly/games) you can install.)
 * Create an HTML page serving as a homepage for your arcade and host it on your Droplet at a unique subdomain.
 * Deploy some of your other standout static HTML pages (from WATS1010 or 1020, perhaps) at a unique subdomain.
