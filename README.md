@@ -64,7 +64,11 @@ To configure your subdomain, go to your domain registrar and create a new subdom
 
 **Test your subdomain** by going to `http://sub.yourdomain.com` in your web browser. You should see an Ubuntu Apache default page telling you about your Apache installation. 
 
-Once you've set up the subdomain with a CNAME pointing to the IP address of your Droplet, you will need to modify the Apache configuration that was just created for you. This is a simple change: You must add a "virtual host" configuration for your chosen subdomain. Follow the [Digital Ocean Support instructions to configure Apache virtual hosts](https://www.digitalocean.com/community/tutorials/how-to-set-up-apache-virtual-hosts-on-ubuntu-14-04-lts/#step-four-—-create-new-virtual-host-files) to accomplish this. Your site configuration file should look something like this:
+Once you've set up the subdomain with a CNAME pointing to the IP address of your Droplet, you will need to modify the Apache configuration that was just created for you. This is a simple change: You must add a "virtual host" configuration for your chosen subdomain. Follow the [Digital Ocean Support instructions to configure Apache virtual hosts](https://www.digitalocean.com/community/tutorials/how-to-set-up-apache-virtual-hosts-on-ubuntu-14-04-lts/#step-four-—-create-new-virtual-host-files) to accomplish this. 
+
+*NOTE:* Focus on Step 4 and Step 5 for the purposes of this assignment. It's not necessary for you to complete the entire tutorial (unless you want to).
+
+Your site configuration file should look something like this:
 
 ```
 <VirtualHost *:80>
