@@ -9,12 +9,9 @@ In this project we will add the Apache server to our Droplet and point a subdoma
 * Clone this repository to a location you can make accessible via Apache.
 * Configure Apache to serve this site.
 
-There is a lot of information out there about how to accomplish these individual things, but I want to offer a few different paths to success here. Digital Ocean, and many other providers, will allow you some convenience functions. Please decide what level of challenge you feel comfortable with, and follow those recommendations. Don't be uncomfortable starting with the easiest method and working into the more difficult approaches. Ultimately, these all get the same job done, and it can be much easier to accomplish the more manual approach once you've explored how the more automated setup works.
-
-### Novice Option: Droplet with LAMP "App"
 Follow these directions for the easiest way to get up and running with a custom subdomain on a Droplet. 
 
-#### Create Droplet
+### Create Droplet
 Digital Ocean allows you to select the operating system and the "app" that a Droplet is running when you create a new Droplet. Select these options when you make your Droplet:
 
 * Ubuntu 14.04
@@ -36,14 +33,14 @@ You are encouraged to run mysql_secure_installation to ready your server for pro
 
 You have actually installed PHP and mySQL in addition to Apache on this server. (We aren't using those technologies now.) You also have access to all the stuff that comes with Ubuntu.
 
-#### Install Git
+### Install Git
 This is a brand new server. You will need to install Git via apt-get:
 
 `apt-get install git`
 
 Since you do not plan to do any editing on the repository we are cloning, you don't actually need to configure Git. You also don't need to add your SSH key. However, since you're not trading keys between Github and your Droplet, you will need to use the HTTP clone URL when you clone repositories. You can switch to this on Github.
 
-#### Clone Website Code
+### Clone Website Code
 This repository provides the code you will deploy on your Droplet. You should change directory (`cd`) into the "web root" of your Droplet. By default, as indicated in the message above, that is located at `/var/www/html`. This location is standard for the Digital Ocean configuration of this Droplet. Other hosting services may vary somewhat, but they will generally all still define some location as the "web root", which is where Apache is set up to look for files by default.
 
 Clone the repository into your web root with the following command:
@@ -58,7 +55,7 @@ Once you have the repo cloned, you should be able to view your files at:
 
 You may now waste some time playing 2048. Come back and complete this assignment after you get the hang of it.
 
-#### Configure Subdomain
+### Configure Subdomain
 You now need to configure your subdomain to point to your game (and that means making changes in your hosting service and in your Apache configuration). Remember&mdash;Apache is the application making your website available on the web, and it is serving your site at the IP address of your Droplet. 
 
 To configure your subdomain, go to your domain registrar and create a new subdomain. When configuring the subdomain, you want to set the CNAME for the subdomain to point to the IP address of your Droplet. This is similar to what you did to configure your main domain to point to your Github profile pages. Exactly how to accomplish this will vary depending on your domain registrar. Consult the support pages for your domain registrar to find out how to do this.
