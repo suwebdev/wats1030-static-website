@@ -74,7 +74,7 @@ Your site configuration file should look something like this:
 <VirtualHost *:80>
     ServerAdmin you@example.com
     ServerName sub.yourdomain.com
-    DocumentRoot /var/www/wats1030-static-website/2048
+    DocumentRoot /var/www/html/wats1030-static-website/2048
     ErrorLog ${APACHE_LOG_DIR}/error.log
     CustomLog ${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
