@@ -19,7 +19,7 @@ Digital Ocean allows you to select the operating system and the "app" that a Dro
 
 (You can pick any region and use any name.)
 
-Once you've configured your Droplet, you should login using the `ssh root@droplet.ip.address`. You will see the following message:
+Once you've configured your Droplet, you should login using the `ssh root@droplet.ip.address`. You will see something similar to the following message:
 
 ```
 -------------------------------------------------------------------------------------
@@ -41,9 +41,11 @@ This is a brand new server. You will need to install Git via apt-get:
 Since you do not plan to do any editing on the repository we are cloning, you don't actually need to configure Git. You also don't need to add your SSH key. However, since you're not trading keys between Github and your Droplet, you will need to use the HTTP clone URL when you clone repositories. You can switch to this on Github.
 
 ### Clone Website Code
-This repository provides the code you will deploy on your Droplet. You should change directory (`cd`) into the "web root" of your Droplet. By default, as indicated in the message above, that is located at `/var/www/html`. This location is standard for the Digital Ocean configuration of this Droplet. Other hosting services may vary somewhat, but they will generally all still define some location as the "web root", which is where Apache is set up to look for files by default.
+This repository provides the code you will deploy on your Droplet.
 
-Clone the repository into your web root with the following command:
+First, you should change directory into the "web root" of your Droplet (`cd /var/www/html`) which by default, as indicated in the message above, that is located at `/var/www/html`. This location is standard for the Digital Ocean configuration of this Droplet. Other hosting services may vary somewhat, but they will generally all still define some location as the "web root", which is where Apache is set up to look for files by default.
+
+Then clone the repository into the web root with the following command:
 
 `git clone https://github.com/suwebdev/wats1030-static-website.git`
 
@@ -55,20 +57,25 @@ Once you have the repo cloned, you should be able to view your files at:
 
 You may now waste some time playing 2048. Come back and complete this assignment after you get the hang of it.
 
-### Configure Subdomain
+### Configure Subdomain in your domain name registrar
 You now need to configure your subdomain to point to your game (and that means making changes in your hosting service and in your Apache configuration). Remember&mdash;Apache is the application making your website available on the web, and it is serving your site at the IP address of your Droplet. 
 
-To configure your subdomain, go to your domain registrar and create a new subdomain. When configuring the subdomain, you want to set the CNAME for the subdomain to point to the IP address of your Droplet. This is similar to what you did to configure your main domain to point to your Github profile pages. Exactly how to accomplish this will vary depending on your domain registrar. Consult the support pages for your domain registrar to find out how to do this.
+To configure your subdomain, go to the domain name registrar you used to set up your domain (i.e. NameCheap) and create a new subdomain. 
 
-*NOTE:* Sometimes the domain registrar may force you to create an A record since you only have a numeric address. That's fine, and will also work. Again, consult your registrar's support documentation for details and reach out to your instructor for help.
+When configuring the subdomain, you want to create an A record for the subdomain to point to the IP address of your Droplet. This is similar to what you did to configure your main domain to point to your Github profile pages. Exactly how to accomplish this will vary depending on your domain registrar. Consult the support pages for your domain registrar to find out how to do this. For Name Cheap, [click here for the instructions for creating a new subdomain.](https://www.namecheap.com/support/knowledgebase/article.aspx/9776/2237/how-to-create-a-subdomain-for-my-domain)
 
-**Test your subdomain** by going to `http://sub.yourdomain.com` in your web browser. You should see an Ubuntu Apache default page telling you about your Apache installation. 
+### Create and configure an Apache Virtual Host file
+Once you've set up the subdomain with an A record pointing to the IP address of your Droplet, you will need to modify the Apache configuration that was just created for you. This is a simple change: You must add a "virtual host" configuration for your chosen subdomain. The below instructions come from the [Digital Ocean Support instructions to configure Apache virtual hosts](https://www.digitalocean.com/community/tutorials/how-to-set-up-apache-virtual-hosts-on-ubuntu-14-04-lts/#step-four-—-create-new-virtual-host-files) to accomplish this. *NOTE:* Focus on Step 4 and Step 5 for the purposes of this assignment. It's not necessary for you to complete the entire tutorial (unless you want to).
 
-Once you've set up the subdomain with a CNAME pointing to the IP address of your Droplet, you will need to modify the Apache configuration that was just created for you. This is a simple change: You must add a "virtual host" configuration for your chosen subdomain. Follow the [Digital Ocean Support instructions to configure Apache virtual hosts](https://www.digitalocean.com/community/tutorials/how-to-set-up-apache-virtual-hosts-on-ubuntu-14-04-lts/#step-four-—-create-new-virtual-host-files) to accomplish this. 
+Start by copying Apache's default virtual host file into a new virtual host file for your domain. 
 
-*NOTE:* Focus on Step 4 and Step 5 for the purposes of this assignment. It's not necessary for you to complete the entire tutorial (unless you want to).
+`sudo cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/YOURDOMAIN.com.conf`
 
-Your site configuration file should look something like this:
+Then using Nano or your favorite command line text editor, edit your new virtual host file. 
+
+`sudo nano /etc/apache2/sites-available/YOURDOMAIN.com.conf`
+
+to look something like this:
 
 ```
 <VirtualHost *:80>
@@ -80,16 +87,11 @@ Your site configuration file should look something like this:
 </VirtualHost>
 ```
 
-Don't forget to run the commands specified in the Digital Ocean support document:
+After you save and close your virtual host file, run the below commands (as specified in the Digital Ocean support document):
 
-```
-root@static-site:/var/www/html# sudo a2ensite sub.yourdomain.com.conf
-Enabling site sub.yourdomain.com.
-To activate the new configuration, you need to run:
-  service apache2 reload
-```
+`sudo a2ensite yourdomain.com.conf`
 
-As the feedback instructs, reload Apache so your changes take effect:
+It should tell you that you are enabling site. Then run the command that the feedback instructs you to reload Apache so your changes take effect - it will look something like this:
 
 ```
 root@static-site:/var/www/html# service apache2 reload
