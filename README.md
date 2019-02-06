@@ -16,6 +16,7 @@ Digital Ocean allows you to select the operating system and the "app" that a Dro
 
 * Ubuntu 14.04
 * LAMP App (click on the Apps tab to see the list of apps you can choose)
+* Select your SSH key so that you can SSH from you local machine terminal
 
 (You can pick any region and use any name.)
 
