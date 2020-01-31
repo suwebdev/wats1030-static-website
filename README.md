@@ -14,22 +14,43 @@ Follow these directions for the easiest way to get up and running with a custom 
 ### Create Droplet
 Digital Ocean allows you to select the operating system and the "app" that a Droplet is running when you create a new Droplet. Select these options when you make your Droplet:
 
-* Ubuntu 14.04
-* LAMP App (click on the Apps tab to see the list of apps you can choose)
+* Ubuntu (18.04.3)
+* LAMP App (click on the Marketplace tab and select LAMP on 18.04)
 * Select your SSH key so that you can SSH from you local machine terminal
+* Select the standard plan for $5/mo
 
 (You can pick any region and use any name.)
 
 Once you've configured your Droplet, you should login using the `ssh root@droplet.ip.address`. You will see something similar to the following message:
 
 ```
--------------------------------------------------------------------------------------
-Thank you for using DigitalOcean's LAMP Application.
-Your web root is located at /var/www/html and can be seen from http://droplet.ip.address/
-The details of your PHP installation can be seen at http://droplet.ip.address/info.php
-Your MySQL root user's password is * * * * * * * * * * *
-You are encouraged to run mysql_secure_installation to ready your server for production.
--------------------------------------------------------------------------------------
+********************************************************************************
+
+Welcome to DigitalOcean's One-Click LAMP Droplet. 
+To keep this Droplet secure, the UFW firewall is enabled. 
+All ports are BLOCKED except 22 (SSH), 80 (HTTP), and 443 (HTTPS).
+
+In a web browser, you can view:
+ * The LAMP One-Click Quickstart guide: http://do.co/lamp1804#start
+ * Your LAMP website: http://your-droplet-ip-address
+
+On the server:
+ * The default web root is located at /var/www/html
+ * The MySQL root password is saved in /root/.digitalocean_password
+ * Certbot is preinstalled. Run it to configure HTTPS. See
+   http://do.co/lamp1804#enable-https for more detail.
+
+For help and more information, visit http://do.co/lamp1804
+
+********************************************************************************
+To delete this message of the day: rm -rf /etc/update-motd.d/99-one-click
+
+The programs included with the Ubuntu system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
+applicable law.
 ```
 
 You have actually installed PHP and mySQL in addition to Apache on this server. (We aren't using those technologies now.) You also have access to all the stuff that comes with Ubuntu.
@@ -39,7 +60,7 @@ This is a brand new server. You will need to install Git via apt-get:
 
 `apt-get install git`
 
-Since you do not plan to do any editing on the repository we are cloning, you don't actually need to configure Git. You also don't need to add your SSH key. However, since you're not trading keys between Github and your Droplet, you will need to use the HTTP clone URL when you clone repositories. You can switch to this on Github.
+Since you do not plan to do any editing on the repository we are cloning, you don't actually need to configure Git. You also don't need to add your SSH key. However, since you're not trading keys between Github and your Droplet, you will need to use the HTTPS clone URL when you clone repositories. You can switch to this on Github.
 
 ### Clone Website Code
 This repository provides the code you will deploy on your Droplet.
@@ -95,7 +116,7 @@ After you save and close your virtual host file, run the below commands (as spec
 It should tell you that you are enabling site. Then run the command that the feedback instructs you to reload Apache so your changes take effect - it will look something like this:
 
 ```
-root@static-site:/var/www/html# service apache2 reload
+root@static-site:/var/www/html# systemctl reload apache2
  * Reloading web server apache2                                                                                             *
 ```
 
